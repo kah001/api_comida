@@ -9,9 +9,7 @@ servidor.use(cors())
 servidor.use(express.json())
 
 
-
 adicionarRotas(servidor)
-
 
 
 const PORTA = process.env.PORTA

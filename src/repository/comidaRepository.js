@@ -1,13 +1,12 @@
 import con from "./connection.js";
 
-
 export async function inserirComida(comida) {
     const comando = `
-        INSERT INTO tb_comida (nm_comida, tp_comida, dt_validade, vl_preco, ds_setor, qtd_estoque)
-            VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO tb_comida (nm_comida, tp_comida, dt_validade, vl_preco, ds_setor, qtd_estoque, id_usuario)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
     `
 
-    let registro = await con.query(comando, [comida.nome, comida.tipo, comida.validade, comida.preco, comida.setor, comida.estoque])
+    let registro = await con.query(comando, [comida.nome, comida.tipo, comida.validade, comida.preco, comida.setor, comida.estoque, comida.usuario])
     let info = registro[0]
 
     return info.insertId;
@@ -21,12 +20,13 @@ export async function consultarComida() {
                 dt_validade         validade,
                 vl_preco            preco,
                 ds_setor            setor,
-                qtd_estoque         estoque
+                qtd_estoque         estoque,
+                id_usuario          usuario
             FROM tb_comida
     `
 
-    let resgistro = await con.query(comando)
-    let info = resgistro[0]
+    let registro = await con.query(comando)
+    let info = registro[0]
 
     return info
 }
@@ -39,7 +39,8 @@ export async function consultarComidaId(id) {
                 dt_validade    validade,
                 vl_preco       preco,
                 ds_setor       setor,
-                qtd_estoque    estoque
+                qtd_estoque    estoque,
+                id_usuario     usuario
             FROM tb_comida
             WHERE id_comida = ?
     `
@@ -58,11 +59,12 @@ export async function alterarComida(comida, id) {
                 dt_validade = ?, 
                 vl_preco = ?, 
                 ds_setor = ?, 
-                qtd_estoque = ?
+                qtd_estoque = ?,
+                id_usuario = ?
             WHERE id_comida = ?
     `
 
-    let registro = await con.query (comando, [comida.nome, comida.tipo, comida.validade, comida.preco, comida.setor, comida.estoque, id])
+    let registro = await con.query (comando, [comida.nome, comida.tipo, comida.validade, comida.preco, comida.setor, comida.estoque, comida.usuario, id])
     let info = registro[0]
 
     return info.affectedRows
